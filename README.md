@@ -51,8 +51,8 @@ services:
       - COOKIE_SIGNING_KEY=REPLACEME_32_BYTES_BASE64  # 32-byte base64 secret, the same in api, worker and web
       - CSRF_SIGNING_KEY=REPLACEME_32_BYTES_BASE64  # 32-byte base64 secret, the same in api and worker
     volumes:
-      - "/containers/weavestream-api/data/files:/var/lib/weavestream/files"
-      - "/containers/weavestream-api/data/backup:/var/lib/weavestream/backup:ro"
+      - "/containers/weavestream-api/files:/var/lib/weavestream/files"
+      - "/containers/weavestream-api/backup:/var/lib/weavestream/backup:ro"
     ports:
       - "4000:4000"
     # always (not unless-stopped) so FreeBSD's podman rc.d auto-starts it at boot
@@ -115,8 +115,8 @@ services:
         - COOKIE_SIGNING_KEY: !ENV '${COOKIE_SIGNING_KEY}'
         - CSRF_SIGNING_KEY: !ENV '${CSRF_SIGNING_KEY}'
     volumes:
-      - weavestream-api_data_files: /var/lib/weavestream/files
-      - weavestream-api_data_backup: /var/lib/weavestream/backup
+      - weavestream-api_files: /var/lib/weavestream/files
+      - weavestream-api_backup: /var/lib/weavestream/backup
   weavestream-postgres:
     name: weavestream_postgres
     options:
@@ -128,10 +128,10 @@ services:
       - from: ghcr.io/daemonless/redis:latest
       - template: !ENV '${PWD}/template.conf'
 volumes:
-  weavestream-api_data_files:
-    device: '/containers/weavestream-api/data/files'
-  weavestream-api_data_backup:
-    device: '/containers/weavestream-api/data/backup'
+  weavestream-api_files:
+    device: '/containers/weavestream-api/files'
+  weavestream-api_backup:
+    device: '/containers/weavestream-api/backup'
 ```
 
 **Makejail**:
@@ -182,8 +182,8 @@ services:
       - COOKIE_SIGNING_KEY=REPLACEME_32_BYTES_BASE64
       - CSRF_SIGNING_KEY=REPLACEME_32_BYTES_BASE64
     volumes:
-      - "/containers/weavestream-api/data/files:/var/lib/weavestream/files"
-      - "/containers/weavestream-api/data/backup:/var/lib/weavestream/backup"
+      - "/containers/weavestream-api/files:/var/lib/weavestream/files"
+      - "/containers/weavestream-api/backup:/var/lib/weavestream/backup"
 ```
 
 Save as `bastille-compose.yml`, then run `bastille up`.

@@ -69,8 +69,8 @@ services:
       - CSRF_SIGNING_KEY=REPLACEME_32_BYTES_BASE64
 
     volumes:
-      - ./data/files:/var/lib/weavestream/files
-      - ./data/backup:/var/lib/weavestream/backup:ro
+      - /path/to/containers/weavestream-api/files:/var/lib/weavestream/files
+      - /path/to/containers/weavestream-api/backup:/var/lib/weavestream/backup:ro
 
     ports:
       - "4000:4000"

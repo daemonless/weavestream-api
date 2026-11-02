@@ -13,6 +13,13 @@ services:
       - REDIS_URL=redis://127.0.0.1:6379/0
       - APP_URL=http://localhost:3000
       - API_URL=http://localhost:3000/api
+      - JWT_SIGNING_KEY=7eY2RXzrzAhPeYC9F6S6PwKkCA/4l+/myRR+rvEzA/M=
+      - MFA_ENCRYPTION_KEY=oL76v/mCkCfaT5G3xSWxHaQ9YkRPd+iaiVICO/vdJ9w=
+      - PASSWORD_ENCRYPTION_KEY=eeXJxclMjC4g8tgXTbS2P/Ti5rq8av7m6ZTY70m7Yg4=
+      - INTEGRATION_SECRET_KEY=1UURngUK8O8qHE3Pw+ECwoaaNUsYAQrDFpsn8yPz5YA=
+      - SMTP_SECRET_KEY=V/qGtI07nrlhgsuadRVWpfqXZmLG/bCtIPypay90mio=
+      - COOKIE_SIGNING_KEY=eyuCApUF7cfz6gLjsK1RDvT9mNVmKtTZ+oFmrfZvJZw=
+      - CSRF_SIGNING_KEY=uXNMVI+wYetaiXLAZllZIEwfpT8kHm8JO177ubZpBN4=
     depends_on:
       - postgres
       - redis

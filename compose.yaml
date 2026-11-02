@@ -33,13 +33,13 @@ x-daemonless:
       REDIS_URL: "Redis or Valkey connection string (e.g. redis://host:6379/0)"
       APP_URL: "Public origin of the web UI (default: http://localhost:3000)"
       API_URL: "Public origin of the API (default: http://localhost:3000/api)"
-      JWT_SIGNING_KEY: "32-byte base64 secret (auto-generated if unset)"
-      MFA_ENCRYPTION_KEY: "32-byte base64 secret (auto-generated if unset)"
-      PASSWORD_ENCRYPTION_KEY: "32-byte base64 secret (auto-generated if unset)"
-      INTEGRATION_SECRET_KEY: "32-byte base64 secret (auto-generated if unset)"
-      SMTP_SECRET_KEY: "32-byte base64 secret (auto-generated if unset)"
-      COOKIE_SIGNING_KEY: "32-byte base64 secret (auto-generated if unset)"
-      CSRF_SIGNING_KEY: "32-byte base64 secret (auto-generated if unset)"
+      JWT_SIGNING_KEY: "32-byte base64 secret, the same in api and worker"
+      MFA_ENCRYPTION_KEY: "32-byte base64 secret, the same in api and worker"
+      PASSWORD_ENCRYPTION_KEY: "32-byte base64 secret, the same in api and worker"
+      INTEGRATION_SECRET_KEY: "32-byte base64 secret, the same in api and worker"
+      SMTP_SECRET_KEY: "32-byte base64 secret, the same in api and worker"
+      COOKIE_SIGNING_KEY: "32-byte base64 secret, the same in api, worker and web"
+      CSRF_SIGNING_KEY: "32-byte base64 secret, the same in api and worker"
     ports:
       4000: "API HTTP listener (NestJS)"
     volumes:
@@ -60,6 +60,13 @@ services:
       - REDIS_URL=redis://:REPLACEME@redis:6379/0
       - APP_URL=http://localhost:3000
       - API_URL=http://localhost:3000/api
+      - JWT_SIGNING_KEY=REPLACEME_32_BYTES_BASE64
+      - MFA_ENCRYPTION_KEY=REPLACEME_32_BYTES_BASE64
+      - PASSWORD_ENCRYPTION_KEY=REPLACEME_32_BYTES_BASE64
+      - INTEGRATION_SECRET_KEY=REPLACEME_32_BYTES_BASE64
+      - SMTP_SECRET_KEY=REPLACEME_32_BYTES_BASE64
+      - COOKIE_SIGNING_KEY=REPLACEME_32_BYTES_BASE64
+      - CSRF_SIGNING_KEY=REPLACEME_32_BYTES_BASE64
 
     volumes:
       - ./data/files:/var/lib/weavestream/files

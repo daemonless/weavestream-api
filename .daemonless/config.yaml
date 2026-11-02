@@ -1,0 +1,19 @@
+# dbuild configuration file
+# Full reference: https://github.com/daemonless/dbuild
+
+icon: ':material-server-network:'
+build:
+  architectures:
+    - amd64
+  variants:
+    - tag: latest
+      containerfile: Containerfile
+      default: true
+
+cit:
+  compose: true
+  mode: health
+  port: 4000
+  health: /health
+  wait: 120
+  ready: "Nest application successfully started"

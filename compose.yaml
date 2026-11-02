@@ -1,0 +1,69 @@
+name: weavestream-api
+
+x-daemonless:
+  title: "Weavestream API"
+  icon: ":material-server-network:"
+  category: "Productivity"
+  description: "Backend REST API and MCP server for Weavestream, an open-source self-hosted IT documentation and asset management platform."
+  upstream_url: "https://github.com/Weavestream/Weavestream"
+  web_url: "https://weavestream.io"
+  freshports_url: ""
+  user: "bsd"
+  mlock: false
+  upstream_binary: false
+  appjail:
+    director:
+      options:
+        - alias:
+        - ip4_inherit:
+    depends_on:
+      - name: weavestream-postgres
+        image: ghcr.io/daemonless/postgres:16
+        template: postgres-template.conf
+      - name: weavestream-redis
+        image: ghcr.io/daemonless/redis:latest
+  community: "Discord:https://discord.gg/weavestream"
+
+  docs:
+    env:
+      PUID: "User ID for the API process"
+      PGID: "Group ID for the API process"
+      TZ: "Timezone for the container"
+      DATABASE_URL: "PostgreSQL connection string (e.g. postgresql://user:pass@host:5432/db)"
+      REDIS_URL: "Redis or Valkey connection string (e.g. redis://host:6379/0)"
+      APP_URL: "Public origin of the web UI (default: http://localhost:3000)"
+      API_URL: "Public origin of the API (default: http://localhost:3000/api)"
+      JWT_SIGNING_KEY: "32-byte base64 secret (auto-generated if unset)"
+      MFA_ENCRYPTION_KEY: "32-byte base64 secret (auto-generated if unset)"
+      PASSWORD_ENCRYPTION_KEY: "32-byte base64 secret (auto-generated if unset)"
+      INTEGRATION_SECRET_KEY: "32-byte base64 secret (auto-generated if unset)"
+      SMTP_SECRET_KEY: "32-byte base64 secret (auto-generated if unset)"
+      COOKIE_SIGNING_KEY: "32-byte base64 secret (auto-generated if unset)"
+      CSRF_SIGNING_KEY: "32-byte base64 secret (auto-generated if unset)"
+    ports:
+      4000: "API HTTP listener (NestJS)"
+    volumes:
+      /var/lib/weavestream/files: "Uploaded attachments and documents"
+      /var/lib/weavestream/backup: "Backup storage directory (read-only for API, worker writes)"
+
+services:
+  weavestream-api:
+    image: ghcr.io/daemonless/weavestream-api:latest
+    container_name: weavestream-api
+    restart: always
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+      - DATABASE_URL=postgresql://weavestream:REPLACEME@postgres:5432/weavestream
+      - REDIS_URL=redis://:REPLACEME@redis:6379/0
+      - APP_URL=http://localhost:3000
+      - API_URL=http://localhost:3000/api
+
+    volumes:
+      - ./data/files:/var/lib/weavestream/files
+      - ./data/backup:/var/lib/weavestream/backup:ro
+
+    ports:
+      - "4000:4000"

@@ -1,0 +1,41 @@
+name: weavestream-api-cit
+
+services:
+  weavestream-api:
+    image: ghcr.io/daemonless/weavestream-api:build-latest
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+      - DATABASE_URL=postgresql://weavestream:weavestream@127.0.0.1:5432/weavestream
+      - REDIS_URL=redis://127.0.0.1:6379/0
+      - APP_URL=http://localhost:3000
+      - API_URL=http://localhost:3000/api
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: ghcr.io/daemonless/postgres:16
+    network_mode: host
+    restart: unless-stopped
+    annotations:
+      org.freebsd.jail.allow.sysvipc: "true"
+    environment:
+      - POSTGRES_USER=weavestream
+      - POSTGRES_PASSWORD=weavestream
+      - POSTGRES_DB=weavestream
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+
+  redis:
+    image: ghcr.io/daemonless/redis:latest
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC

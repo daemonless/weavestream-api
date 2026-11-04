@@ -1,11 +1,11 @@
 {
-  "generated": "2026-11-02T21:38:27Z",
+  "generated": "2026-11-04T15:25:02Z",
   "image": "weavestream-api",
   "tags": {
     "latest": {
       "app_version": "1.11.1",
       "arch": "amd64",
-      "generated": "2026-11-02T21:37:01Z",
+      "generated": "2026-11-04T15:23:34Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -454,7 +454,7 @@
               "PD"
             ],
             "name": "sqlite3",
-            "version": "3.53.4,1"
+            "version": "3.54.1,1"
           },
           {
             "licenses": [
